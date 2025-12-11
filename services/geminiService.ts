@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from "../constants";
 import { LeadData } from "../types";
@@ -30,10 +31,21 @@ const leadSchema: Schema = {
   ],
 };
 
-// @ts-ignore
-const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
-
+// Lazy initialization to prevent top-level crashes
 export const parseLead = async (leadText: string, marketHint: string): Promise<LeadData> => {
+  const apiKey = import.meta.env.VITE_API_KEY;
+  const openAiKey = import.meta.env.VITE_OPENAI_API_KEY;
+
+  console.log("Has VITE_API_KEY?", !!apiKey);
+  console.log("Has VITE_OPENAI_API_KEY?", !!openAiKey); // Log as requested locally
+
+  if (!apiKey) {
+    console.error("Missing API Key. Please ensure VITE_API_KEY is set in .env.local");
+    throw new Error("Missing API Key");
+  }
+
+  // @ts-ignore
+  const ai = new GoogleGenAI({ apiKey });
   try {
     // Construct the user content prompt
     const userPrompt = `
