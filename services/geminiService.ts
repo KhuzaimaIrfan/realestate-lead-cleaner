@@ -35,8 +35,6 @@ const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_KEY });
 
 export const parseLead = async (leadText: string, marketHint: string): Promise<LeadData> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    
     // Construct the user content prompt
     const userPrompt = `
       Input Data:
@@ -48,7 +46,7 @@ export const parseLead = async (leadText: string, marketHint: string): Promise<L
     `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       contents: userPrompt,
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
