@@ -35,7 +35,7 @@ const leadSchema: Schema = {
 export const parseLead = async (leadText: string, marketHint: string): Promise<LeadData> => {
   const apiKey = import.meta.env.VITE_API_KEY || import.meta.env.VITE_OPENAI_API_KEY;
 
-  console.log("Has API Key?", !!apiKey); // Check if we found ANY key
+  console.log("Gemini API key present?", !!apiKey); // Check if we found ANY key
 
   if (!apiKey) {
     console.error("Missing API Key. Please ensure VITE_API_KEY or VITE_OPENAI_API_KEY is set in .env.local");
@@ -80,7 +80,7 @@ export const parseLead = async (leadText: string, marketHint: string): Promise<L
     }
 
   } catch (error) {
-    console.error("Gemini API Error:", error);
+    console.error("Gemini error", error);
     throw error;
   }
 };
