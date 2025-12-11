@@ -33,15 +33,13 @@ const leadSchema: Schema = {
 
 // Lazy initialization to prevent top-level crashes
 export const parseLead = async (leadText: string, marketHint: string): Promise<LeadData> => {
-  const apiKey = import.meta.env.VITE_API_KEY;
-  const openAiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  const apiKey = import.meta.env.VITE_API_KEY || import.meta.env.VITE_OPENAI_API_KEY;
 
-  console.log("Has VITE_API_KEY?", !!apiKey);
-  console.log("Has VITE_OPENAI_API_KEY?", !!openAiKey); // Log as requested locally
+  console.log("Has API Key?", !!apiKey); // Check if we found ANY key
 
   if (!apiKey) {
-    console.error("Missing API Key. Please ensure VITE_API_KEY is set in .env.local");
-    throw new Error("Missing API Key");
+    console.error("Missing API Key. Please ensure VITE_API_KEY or VITE_OPENAI_API_KEY is set in .env.local");
+    throw new Error("Missing API Key - Please set VITE_API_KEY or VITE_OPENAI_API_KEY in .env.local");
   }
 
   // @ts-ignore
